@@ -1,5 +1,11 @@
+import 'package:cloudconvert_client/cloudconvert_client.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/animation.dart';
+
+
+
+
+
 
 class ConvertState extends Equatable {
   final String format;
