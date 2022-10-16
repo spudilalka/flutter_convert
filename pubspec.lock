@@ -41,7 +41,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: bdc837b4913970a6b5f560e70ea0c7e2430d23a7
+      resolved-ref: "950b4a42bb39b3376ca15317ac4299900c89511e"
       url: "https://github.com/ffdb42/cloudconvert_client"
     source: git
     version: "1.0.0"

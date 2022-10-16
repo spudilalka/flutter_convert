@@ -21,6 +21,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
 
     emit(state.copyWith(format: newFormat));
   }
+  
 
   Future setWordformat(
       Wordformat event, ConvertState state, Emitter<ConvertState> emit) async {
