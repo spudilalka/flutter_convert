@@ -4,13 +4,10 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+приложение работает,в нём реализован bloc(но пока это работает только с выбором файла для конвертации, так как я не хотел делать блок ради блока), приходят ответы от cloudConvert_client нооо есть проблемма...
 
-A few resources to get you started if this is your first Flutter project:
+есть несколько проблем:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- блок был реализован и ,как я понял, класс клиента надо реализовывать внутри него, но в ивентах я не могу обратиться к нему (пометил комментами(файл convert_bloc.dart))
+- из блока я получаю list с возможными форматами для конвертации, но dropDownButton не хочет принимать этот лист (файл convert_view.dart тоже есть комментарий)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
