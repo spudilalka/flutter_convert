@@ -1,4 +1,3 @@
-
 import 'convert_bloc.dart';
 import 'convert_event.dart';
 import 'convert_state.dart';
@@ -41,7 +40,7 @@ class _ConvertPageState extends State<ConvertPage> {
     'Txt',
   ];
 
-  String dropdownValue = list.first;
+  String dropdownValue = '';
   List<String> _forPNGItems = [
     'Jpeg',
     'BMP',
@@ -49,91 +48,119 @@ class _ConvertPageState extends State<ConvertPage> {
 
   @override
   Widget build(BuildContext contex) {
-    return Scaffold(
-        backgroundColor: Colors.grey[500],
-        appBar: AppBar(
-          title: Text('все фото'),
-          centerTitle: true,
-        ),
-        body: BlocProvider(
-            create: ((context) => ConvertBloc()),
-            child: BlocBuilder<ConvertBloc, ConvertState>(
-                builder: (context, state) {
-              return Container(
-                color: Colors.blueAccent,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(80.0),
-                    child: Column(
-                      children: [
-                        DropdownButton<String>(
-                          value: dropdownValue,
-                          icon: const Icon(Icons.arrow_downward),
-                          elevation: 16,
-                          style: const TextStyle(color: Colors.deepPurple),
-                          underline: Container(
-                            height: 2,
-                            color: Colors.deepPurpleAccent,
-                          ),
-                          onChanged: (String? value) {
-                            // This is called when the user selects an item.
-                            setState(() {
-                              
-                              dropdownValue = value!;
-                            });
-                          },
-                          items: list
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
+    
+          return Scaffold(
+              
+              backgroundColor: Colors.grey[500],
+              appBar: AppBar(
+                backgroundColor: Colors.deepPurple,
+                title: Text('все фото'),
+                centerTitle: true,
 
-                        // DropdownButton(
-                        //   value: 1,
-                        //   items: _dropdownItems.map((ListItem item) {
-                        //     return DropdownMenuItem<String>(
-                        //       child: Text(item.name),
-                        //       value: item.format,
-                        //     );
-                        //   },
+              ),
+              body: 
+              BlocProvider(
 
-                        //   ).toList(),
-                        //   onChanged: (value) {
-                        //     if (value == "1") {
-                        //       PNGformat(format: state.format);
-                        //       print('ERROR: 1');
-                        //     } else if (value == "2") {
-                        //       Wordformat(format: state.format);
-                        //     } else if (value == "3") {
-                        //       Txtformat(format: state.format);
-                        //     } else {
-                        //       print('ERROR: GG');
-                        //     }
-                        //   },
-                        // ),
+                  create: ((context) => ConvertBloc()),
+                  child: BlocBuilder<ConvertBloc, ConvertState>(
 
-                        GestureDetector(
+                      builder: (context, state) {
+
+                    return Container(
+                      
+
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      
+                      child: Center(
+                        
+                        child: Padding(
+                          padding: const EdgeInsets.all(80.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                              children: [
+                                
+                                GestureDetector(
                           onTap: (() {
-                            progressBarUpdate(progressBarValue);
+                            context
+                                .read<ConvertBloc>()
+                                .add(PickFile(filename: state.filename,filePath: state.filePath));
                           }),
                           child: Container(
-                            width: 100,
-                            height: 100,
+                            width: 200,
+                            height: 50,
                             color: Colors.deepPurple,
+                            child:  Text(
+                              state.filename,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 20,
+                              ),
+                            ),
                           ),
                         ),
 
-                        LinearProgressIndicator(
-                          value: progressBarValue,
+                              DropdownButton<String>(
+                                value: state.format,
+                                icon: const Icon(Icons.arrow_downward),
+                                elevation: 16,
+                                style:
+                                    const TextStyle(color: Colors.deepPurple),
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                                onChanged: (String? value) {
+                                  
+                                  setState(() {
+                                    dropdownValue = value!;
+                                  });
+                                },
+                                items:state.availableFormats.map((e) => DropdownMenuItem<String>( //!!!!!!я не понимаю, он не хочет принимать сюда лист, который прилетает через блок!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                      value: e, child: Text(e)))
+                                  .toList(),
+                              ),
+                              ],
+
+                              ),
+                              
+                              
+                  
+                             
+                              GestureDetector(
+                                onTap: (() {
+                                  progressBarUpdate(progressBarValue);
+                                }),
+                                child: Container(
+                                  width: 200,
+                                  height: 50,
+                                  
+
+                                  color: Colors.deepPurple,
+                                  child: Text(
+                              'куда кинуть полученный файл',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 20,
+                              ),)
+                                  
+                                ),
+                              ),
+                              
+                              LinearProgressIndicator(
+                                value: progressBarValue,
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            })));
+                      ),
+                    );
+                  })));
+       
   }
 }

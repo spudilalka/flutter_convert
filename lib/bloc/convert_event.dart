@@ -1,14 +1,17 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
-abstract class ConvertEvent extends Equatable {
+@immutable
+abstract class ConvertEvent {
   const ConvertEvent();
   @override
   List<Object?> get props => [];
 }
 
-class PNGformat extends ConvertEvent {
-  final String format;
-  const PNGformat({required this.format});
+class PickFile extends ConvertEvent {
+  final String filename;
+  final String filePath;
+  const PickFile({required this.filePath, required this.filename});
 }
 
 class Wordformat extends ConvertEvent {

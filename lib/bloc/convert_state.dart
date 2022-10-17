@@ -1,27 +1,40 @@
 import 'package:cloudconvert_client/cloudconvert_client.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/animation.dart';
-
-
-
-
-
 
 class ConvertState extends Equatable {
+ // final Client newclient;
   final String format;
-  final String key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYWEwYjVmNjNkNDAzY2EwYTI2MDE3NmMzM2QzMTBhNTE5MzA3M2RhN2YxNWExMDY0MmE2NGUyMzUyMWY3ODdiYWE5ODdmYmEwNGUxY2UyMDgiLCJpYXQiOjE2NjU3ODQ5NDMuMDY1NjU5LCJuYmYiOjE2NjU3ODQ5NDMuMDY1NjYxLCJleHAiOjQ4MjE0NTg1NDMuMDYzMTY1LCJzdWIiOiI2MDMxMzM1MSIsInNjb3BlcyI6WyJ1c2VyLnJlYWQiLCJ0YXNrLnJlYWQiLCJ1c2VyLndyaXRlIiwidGFzay53cml0ZSIsIndlYmhvb2sucmVhZCIsIndlYmhvb2sud3JpdGUiLCJwcmVzZXQucmVhZCIsInByZXNldC53cml0ZSJdfQ.jAjTGa2QTCdc7b0VNt93WiE_fa7xMWgmNAEplTp-i6m724CLws67yuLiMJ22_V42pcARs8oLS6g3udEhrGrSCHNOE8_8219Jq4HNBdzk15xQIHVO93B2jzU32Xkp9sbx25Jqa9qDMgKIR3vdIWY3jQMCHkQkfVZ8wmnx1XBs9hbeg-jXTmYQsgAEwqggEFWGRVbDjYnD2Ab36q76VLnGbdQ-1Ic4GztAOSTaZ2xIVvhHY1zZK0C81iUAHiQC1khxQFPKbeH5tl_gis53R2hHDG8m3rsUzudbCBUTNfeHU9jjz3174iyVRv4L_VTKzhJqdhfXdHQHj-EPNqwhK42gX6LmnwAFBNOjQo_PBUzMpCC51yh-ZoCTV2U7110_x1wdbcqPX9xHwoaWF1VYR9XdrR7c1D2O88VbF3cg-HUyogqmeqrIxAme5R9t6TPkYB6GIvVY9ka1psRoh7FLpua7fwmS9fGucHHCgOh2vwEeHp-gG3uffR6SqPVpYPPezyAoKllLwThvYT4FHhPHsb7zQJGvFopTx02yqJ6qHnplY0ZOmHSrsabqcDcfzQcpDEqlowzYHD9OO1tBYNE24ifcz_-PR1deq287z1NeSAMnaTDsJ3TmTX0qE4qiZLCTxGfC0nbEzQSzhZLyztYAw5KcZ0LqfCK-aUrNcZxulhhOwk8.GFgD2nW5H3Y05ooVY-LyRHU28JJ2-nmKmrRzccnlUK-UJ-NvpnZ30sMvZ1mecLZdKxfcR1d17H3zowQuyZDf2d-0sSihJvkxqk_JnfUnulTRVPr16R6AOfemuwFknfj4YhMFEqAIXE4tMoSZm7XTQQ2RyCT20cGfBibpmB0Oc3DwIDkhtNQUwehHUqZ4BXqCkSY3wAtrH09K5l68a-p2NXSEo3N4_LL8L9M3Y57qEjr1InljH11eRFNkwTNvtF_2v9DiRpQ4_w0u-dy_rXs0BsDtjSI9YHx2CtrM2ikM8ixCIshVn6XGvamcbMTgDszNIajxRUhRKarHfem2sJondgj6vzshBc_RlbCfMq2_2byYEWdteM6a3HZqkaHvWGolmiB868B3dArFPSP2J5Q2u3bF77SXS5QK6rkuoZ4rbtlUnfljap1OA7VSKOIsp1Z6Zd0DigAQrmmlJ1lXq5zFaSYAm8w4wQWR7_Mbwy5VstJ8p_y3WHlKYcTfwtAEbfLKgzKnDw_Nc8e66L6u6j7mPtrlBzbyzuDlZ-JJWLjZHz2WB1kZdlNeHvxibyon7sYs3mKx-loh2ecSGEmoZF2lZQk5aSaDhm7pwMqQi9rKPtU-wqvvk2YzcIViy8Tn2YzSM-WE9_2C50ITVe4gNXRvrPc7looDkO5AYmpS7rbj0oM';
- 
+  final String filename;
+  final List<String> availableFormats;
+  final String url;
+  final String newFilename;
+  final String filePath;
 
   const ConvertState({
-    this.format = '',
+    //this.newclient = null;
+    this.filename = 'выбор файла',
+    this.format = 'выбор формата',
+    this.availableFormats = const [],
+    this.newFilename = '',
+    this.filePath = '',
+    this.url = '',
   });
+
   ConvertState copyWith({
+    String? filename,
     String? format,
-    int? counter,
-    Color? bgColor,
+    List<String>? availableFormats,
+    String? url,
+    String? newFilename,
+    String? filePath,
   }) {
     return ConvertState(
+      filename: filename ?? this.filename,
       format: format ?? this.format,
+      availableFormats: availableFormats ?? this.availableFormats,
+      url: url ?? this.url,
+      newFilename: newFilename ?? this.newFilename,
+      filePath: filePath ?? this.filePath,
     );
   }
 
