@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'convert_bloc.dart';
 import 'convert_event.dart';
 import 'convert_state.dart';
@@ -12,20 +14,34 @@ class ConvertPage extends StatefulWidget {
   _ConvertPageState createState() => _ConvertPageState();
 }
 
-class ListItem {
-  int value = 1;
-  String format;
-  String name;
-  ListItem(this.value, this.format, this.name);
+Widget iconz(String exeption) {
+  if (exeption != '') {
+    return IconButton(
+      icon: Icon(
+        Icons.accessible_outlined,
+        color: Colors.red,
+        size: 24.0,
+      ),
+      tooltip: exeption,
+      onPressed: () {},
+    );
+  } else {
+    return IconButton(
+      icon: Icon(
+        Icons.accessible_outlined,
+        color: Colors.white,
+        size: 24.0,
+      ),
+      tooltip: exeption,
+      onPressed: () {},
+    );
+  }
 }
 
 class _ConvertPageState extends State<ConvertPage> {
-  double progressBarValue = 0;
-
-  void progressBarUpdate(progressBarValue) {
-    progressBarValue += 100;
-    print("pr bar update");
-  }
+  bool isActive = true;
+  Color active = Colors.deepPurple;
+  void check() {}
 
   String dropdownValue = '';
 
@@ -104,10 +120,13 @@ class _ConvertPageState extends State<ConvertPage> {
                               ),
                               tooltip: state.exeption1,
                               onPressed: () {},
-                            )
+                            ),
+                            iconz(state.exeption1),
+                            iconz(state.exeption2),
+                            iconz(state.exeption3),
+                            iconz(state.exeption4),
                           ],
                         ),
-
                         GestureDetector(
                           onTap: (() {
                             context.read<ConvertBloc>().add(PickNewFilePath());
@@ -126,7 +145,6 @@ class _ConvertPageState extends State<ConvertPage> {
                             ),
                           ),
                         ),
-
                         TextField(
                           onSubmitted: (text) {
                             setState(() {
@@ -140,10 +158,13 @@ class _ConvertPageState extends State<ConvertPage> {
                             hintText: 'введите новое имя файла',
                           ),
                         ),
-
                         TextButton(
                           onPressed: (() {
-                            context.read<ConvertBloc>().add(GetFile());
+                            if (state.isAct != 'false') {                          
+                              context.read<ConvertBloc>().add(GetFile());
+                            } else {
+                              print("ne GG");
+                            }
                           }),
                           child: Text(
                             'загрузить файл ' +
@@ -152,15 +173,9 @@ class _ConvertPageState extends State<ConvertPage> {
                                 state.newFileFormat,
                             style: TextStyle(
                               color: Colors.white,
-                              backgroundColor: Colors.deepPurple,
+                              backgroundColor: active,
                             ),
-                            selectionColor: Colors.deepPurple,
                           ),
-                        ),
-
-                        //
-                        LinearProgressIndicator(
-                          value: progressBarValue,
                         ),
                       ],
                     ),

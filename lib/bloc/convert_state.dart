@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloudconvert_client/cloudconvert_client.dart';
 import 'package:equatable/equatable.dart';
 
@@ -14,9 +16,10 @@ class ConvertState extends Equatable {
   final String exeption2;
   final String exeption3;
   final String exeption4;
+  final bool isButtonActive;
+  final String isAct;
 
   const ConvertState({
-    //this.newclient = null;
     this.filename = 'выбор файла',
     this.newFileFormat = 'example',
     this.availableFormats = const [],
@@ -28,6 +31,8 @@ class ConvertState extends Equatable {
     this.exeption2 = '',
     this.exeption3 = '',
     this.exeption4 = '',
+    this.isButtonActive = true,
+    this.isAct = 'true',
   });
 
   ConvertState copyWith({
@@ -42,6 +47,8 @@ class ConvertState extends Equatable {
     String? exeption2,
     String? exeption3,
     String? exeption4,
+    bool? isButtonActive,
+    String? isAct,
   }) {
     return ConvertState(
       filename: filename ?? this.filename,
@@ -52,6 +59,11 @@ class ConvertState extends Equatable {
       filePath: filePath ?? this.filePath,
       newFilePath: newFilePath ?? this.newFilePath,
       exeption1: exeption1 ?? this.exeption1,
+      exeption2: exeption2 ?? this.exeption2,
+      exeption3: exeption3 ?? this.exeption3,
+      exeption4: exeption4 ?? this.exeption4,
+      isButtonActive: isButtonActive ?? this.isButtonActive,
+      isAct: isAct ?? this.isAct,
     );
   }
 
@@ -68,5 +80,7 @@ class ConvertState extends Equatable {
         exeption2,
         exeption3,
         exeption4,
+        isButtonActive,
+        isAct,
       ];
 }

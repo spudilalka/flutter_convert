@@ -27,12 +27,22 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     baseUrls: BaseUrls.sandbox,
   );
 
+
+
   Future setNewFileFormat(
     SetNewFileFormat event,
     ConvertState state,
     Emitter<ConvertState> emit,
   ) async {
-    emit(state.copyWith(newFileFormat: event.NewFormat));
+    if (state.newFileFormat == '' && event.NewFormat == '') {
+      emit(state.copyWith(exeption2: 'выберите новый формат!'));
+    } else {
+      emit(state.copyWith(
+        newFileFormat: event.NewFormat,
+        exeption2: '',
+      ));
+      print('exept2 ==' + state.exeption2);
+    }
   }
 
   Future<void> setNewFileName(
@@ -40,7 +50,12 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     ConvertState state,
     Emitter<ConvertState> emit,
   ) async {
-    emit(state.copyWith(newFilename: event.newName));
+    if (event.newName == '' && state.newFilename == '') {
+      emit(state.copyWith(
+          newFilename: event.newName, exeption4: 'веберите имя!!'));
+    } else {
+      emit(state.copyWith(newFilename: event.newName, exeption4: ''));
+    }
   }
 
   Future pickPath(
@@ -50,9 +65,14 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   ) async {
     final path = await FilePicker.platform.getDirectoryPath();
     print(path);
-    emit(state.copyWith(
-      newFilePath: path,
-    ));
+    if (path == '') {
+      emit(state.copyWith(exeption3: 'выберите путь!!'));
+    } else {
+      emit(state.copyWith(
+        newFilePath: path,
+        exeption3: '',
+      ));
+    }
   }
 
   Future getFile(
@@ -60,6 +80,33 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     ConvertState state,
     Emitter<ConvertState> emit,
   ) async {
+   // emit(state.copyWith(isAct: 'false',));
+    print('gg');
+    if (state.filename == 'выбор файла' ||
+        state.filename == '' ||
+        state.filePath == ''
+        ) {
+      emit(state.copyWith(
+        exeption1: 'выберите  файл!',
+      ));
+      return;
+    } else if (state.newFileFormat == '' || state.newFileFormat == 'example') {
+      emit(state.copyWith(
+        exeption2: 'выберите  формат!',
+      ));
+      return;
+    } else if (state.newFilePath == '') {
+      emit(state.copyWith(
+        exeption3: 'выберите  путь для сохранения!',
+      ));
+      return;
+    } else if (state.newFilename == '' || state.newFilename == 'new_file') {
+      emit(state.copyWith(
+        exeption4: 'выберите  новое имя файла!',
+      ));
+      return;
+    }
+
     ConverterResult url =
         (await newclient.postJob(state.filePath, state.newFileFormat));
     if (url.exception != null) {
@@ -106,10 +153,11 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         filename: result.files.first.name,
         filePath: result.files.first.path,
         availableFormats: list,
+        exeption1: '',
       ));
     } else {
       emit(state.copyWith(
-        exeption1: formats.exception.toString(),
+        exeption1: 'выберите новый фйайл',
       ));
     }
   }
