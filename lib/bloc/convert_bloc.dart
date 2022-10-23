@@ -9,9 +9,15 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     on<ConvertEvent>((event, emit) async {
       if (event is PickFile) {
         await pickFile(event, state, emit);
-      } // } else if (event is PickNewFileFormat) {
-      //   await setNewFileFormat(event, state, emit, newFileFormat);
-      // }
+      } else if (event is PickNewFilePath) {
+        await pickPath(event, state, emit);
+      } else if (event is PickName) {
+        await setNewFileName(event, state, emit);
+      } else if (event is SetNewFileFormat) {
+        await setNewFileFormat(event, state, emit);
+      } else if (event is GetFile) {
+        await getFile(event, state, emit);
+      }
     });
   }
 
@@ -21,13 +27,63 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     baseUrls: BaseUrls.sandbox,
   );
 
-  Future<void> setNewFileFormat(
-    
+  Future setNewFileFormat(
+    SetNewFileFormat event,
     ConvertState state,
-    
-    String newFormat,
+    Emitter<ConvertState> emit,
   ) async {
-    emit(state.copyWith(newFileFormat: newFormat));
+    emit(state.copyWith(newFileFormat: event.NewFormat));
+  }
+
+  Future<void> setNewFileName(
+    PickName event,
+    ConvertState state,
+    Emitter<ConvertState> emit,
+  ) async {
+    emit(state.copyWith(newFilename: event.newName));
+  }
+
+  Future pickPath(
+    PickNewFilePath event,
+    ConvertState state,
+    Emitter<ConvertState> emit,
+  ) async {
+    final path = await FilePicker.platform.getDirectoryPath();
+    print(path);
+    emit(state.copyWith(
+      newFilePath: path,
+    ));
+  }
+
+  Future getFile(
+    GetFile event,
+    ConvertState state,
+    Emitter<ConvertState> emit,
+  ) async {
+    ConverterResult url =
+        (await newclient.postJob(state.filePath, state.newFileFormat));
+    if (url.exception != null) {
+      print(url.exception);
+      emit(state.copyWith(
+        exeption1: url.exception.toString(),
+      ));
+    } else {
+      print(url.result);
+      emit(state.copyWith(
+        url: url.result,
+      ));
+    }
+    ConverterResult response = await newclient.downloadResult(
+      url.result,
+      state.newFilename,
+      state.newFileFormat,
+      state.newFilePath,
+    );
+    if (response.exception != null) {
+      print(response.exception);
+    } else {
+      print('kk');
+    }
   }
 
   Future pickFile(
@@ -50,6 +106,10 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         filename: result.files.first.name,
         filePath: result.files.first.path,
         availableFormats: list,
+      ));
+    } else {
+      emit(state.copyWith(
+        exeption1: formats.exception.toString(),
       ));
     }
   }

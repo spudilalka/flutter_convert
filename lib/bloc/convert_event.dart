@@ -8,13 +8,38 @@ abstract class ConvertEvent {
   List<Object?> get props => [];
 }
 
+class GetFile extends ConvertEvent {
+  
+  const GetFile();
+}
+
 class PickFile extends ConvertEvent {
-  final String filename;
-  final String filePath;
-  const PickFile({
-    required this.filePath,
-    required this.filename,
+  
+  const PickFile();
+}
+
+class SetNewFileFormat extends ConvertEvent {
+  final String NewFormat;
+
+  const SetNewFileFormat({
+    required this.NewFormat,
   });
+}
+
+
+
+
+class PickName extends ConvertEvent {
+  final String newName;
+  
+  const PickName({
+    required this.newName,
+    
+  });
+}
+
+class PickNewFilePath extends ConvertEvent {
+  const PickNewFilePath();
 }
 
 class PickNewFormat extends ConvertEvent {

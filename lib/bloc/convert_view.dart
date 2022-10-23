@@ -55,10 +55,7 @@ class _ConvertPageState extends State<ConvertPage> {
                           children: [
                             GestureDetector(
                               onTap: (() {
-                                context.read<ConvertBloc>().add(PickFile(
-                                      filename: state.filename,
-                                      filePath: state.filePath,
-                                    ));
+                                context.read<ConvertBloc>().add(PickFile());
                               }),
                               child: Container(
                                 width: 200,
@@ -84,15 +81,12 @@ class _ConvertPageState extends State<ConvertPage> {
                                 color: Colors.deepPurpleAccent,
                               ),
                               onChanged: (String? value) {
-                                print('123=====' + state.newFileFormat);
+                                print(state.newFileFormat);
                                 setState(() {
                                   dropdownValue = value!;
-                                  state = state.copyWith(
-                                    newFileFormat: value,
-                                  );
                                   context
                                       .read<ConvertBloc>()
-                                      .setNewFileFormat(state, value);
+                                      .add(SetNewFileFormat(NewFormat: value));
 
                                   print('=====' + state.newFileFormat);
                                 });
@@ -105,24 +99,25 @@ class _ConvertPageState extends State<ConvertPage> {
                             IconButton(
                               icon: Icon(
                                 Icons.favorite,
-                                color: Colors.pink,
+                                color: Colors.red,
                                 size: 24.0,
                               ),
-                              tooltip: 'ошибка',
+                              tooltip: state.exeption1,
                               onPressed: () {},
                             )
                           ],
                         ),
+
                         GestureDetector(
                           onTap: (() {
-                            print('msdnlcsd====' + state.newFileFormat);
+                            context.read<ConvertBloc>().add(PickNewFilePath());
                           }),
                           child: Container(
                             width: 200,
                             height: 50,
                             color: Colors.deepPurple,
                             child: Text(
-                              state.newFileFormat,
+                              'выбор папки для сохранения ',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
@@ -131,14 +126,39 @@ class _ConvertPageState extends State<ConvertPage> {
                             ),
                           ),
                         ),
-                        TextButton(
-                          onPressed: () {
-                            print('object');
+
+                        TextField(
+                          onSubmitted: (text) {
+                            setState(() {
+                              context
+                                  .read<ConvertBloc>()
+                                  .add(PickName(newName: text));
+                            });
                           },
-                          child: Text('загрузить файл ' +
-                              state.newFilename +'.'+
-                              state.newFileFormat),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'введите новое имя файла',
+                          ),
                         ),
+
+                        TextButton(
+                          onPressed: (() {
+                            context.read<ConvertBloc>().add(GetFile());
+                          }),
+                          child: Text(
+                            'загрузить файл ' +
+                                state.newFilename +
+                                '.' +
+                                state.newFileFormat,
+                            style: TextStyle(
+                              color: Colors.white,
+                              backgroundColor: Colors.deepPurple,
+                            ),
+                            selectionColor: Colors.deepPurple,
+                          ),
+                        ),
+
+                        //
                         LinearProgressIndicator(
                           value: progressBarValue,
                         ),
