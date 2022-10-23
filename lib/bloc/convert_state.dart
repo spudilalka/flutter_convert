@@ -2,8 +2,8 @@ import 'package:cloudconvert_client/cloudconvert_client.dart';
 import 'package:equatable/equatable.dart';
 
 class ConvertState extends Equatable {
- // final Client newclient;
-  final String format;
+  // final Client newclient;
+  final String newFileFormat;
   final String filename;
   final List<String> availableFormats;
   final String url;
@@ -13,7 +13,7 @@ class ConvertState extends Equatable {
   const ConvertState({
     //this.newclient = null;
     this.filename = 'выбор файла',
-    this.format = 'выбор формата',
+    this.newFileFormat = 'выбор формата',
     this.availableFormats = const [],
     this.newFilename = '',
     this.filePath = '',
@@ -22,7 +22,7 @@ class ConvertState extends Equatable {
 
   ConvertState copyWith({
     String? filename,
-    String? format,
+    String? newFileFormat,
     List<String>? availableFormats,
     String? url,
     String? newFilename,
@@ -30,7 +30,7 @@ class ConvertState extends Equatable {
   }) {
     return ConvertState(
       filename: filename ?? this.filename,
-      format: format ?? this.format,
+      newFileFormat: newFileFormat ?? this.newFileFormat,
       availableFormats: availableFormats ?? this.availableFormats,
       url: url ?? this.url,
       newFilename: newFilename ?? this.newFilename,
@@ -40,6 +40,6 @@ class ConvertState extends Equatable {
 
   @override
   List<Object?> get props => [
-        format,
+        newFileFormat,
       ];
 }

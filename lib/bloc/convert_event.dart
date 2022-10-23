@@ -11,5 +11,15 @@ abstract class ConvertEvent {
 class PickFile extends ConvertEvent {
   final String filename;
   final String filePath;
-  const PickFile({required this.filePath, required this.filename});
+  const PickFile({
+    required this.filePath,
+    required this.filename,
+  });
+}
+
+class PickNewFormat extends ConvertEvent {
+  final String newFileFormat;
+  const PickNewFormat({
+    required this.newFileFormat,
+  });
 }

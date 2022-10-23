@@ -27,17 +27,7 @@ class _ConvertPageState extends State<ConvertPage> {
     print("pr bar update");
   }
 
-  List<String> _forTxtAndWordItems = <String>[
-    'PDF',
-    'Word',
-    'Txt',
-  ];
-
   String dropdownValue = '';
-  List<String> _forPNGItems = [
-    'Jpeg',
-    'BMP',
-  ];
 
   @override
   Widget build(BuildContext contex) {
@@ -66,8 +56,9 @@ class _ConvertPageState extends State<ConvertPage> {
                             GestureDetector(
                               onTap: (() {
                                 context.read<ConvertBloc>().add(PickFile(
-                                    filename: state.filename,
-                                    filePath: state.filePath));
+                                      filename: state.filename,
+                                      filePath: state.filePath,
+                                    ));
                               }),
                               child: Container(
                                 width: 200,
@@ -84,7 +75,7 @@ class _ConvertPageState extends State<ConvertPage> {
                               ),
                             ),
                             DropdownButton<String>(
-                              value: state.format,
+                              hint: const Text('выбор нового формата'),
                               icon: const Icon(Icons.arrow_downward),
                               elevation: 16,
                               style: const TextStyle(color: Colors.deepPurple),
@@ -93,35 +84,60 @@ class _ConvertPageState extends State<ConvertPage> {
                                 color: Colors.deepPurpleAccent,
                               ),
                               onChanged: (String? value) {
+                                print('123=====' + state.newFileFormat);
                                 setState(() {
                                   dropdownValue = value!;
+                                  state = state.copyWith(
+                                    newFileFormat: value,
+                                  );
+                                  context
+                                      .read<ConvertBloc>()
+                                      .setNewFileFormat(state, value);
+
+                                  print('=====' + state.newFileFormat);
                                 });
                               },
                               items: state.availableFormats
                                   .map((e) => DropdownMenuItem<String>(
-                                      //!!!!!!я не понимаю, он не хочет принимать сюда лист, который прилетает через блок!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                      value: e,
-                                      child: Text(e)))
+                                      value: e, child: Text(e)))
                                   .toList(),
                             ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.favorite,
+                                color: Colors.pink,
+                                size: 24.0,
+                              ),
+                              tooltip: 'ошибка',
+                              onPressed: () {},
+                            )
                           ],
                         ),
                         GestureDetector(
                           onTap: (() {
-                            progressBarUpdate(progressBarValue);
+                            print('msdnlcsd====' + state.newFileFormat);
                           }),
                           child: Container(
-                              width: 200,
-                              height: 50,
-                              color: Colors.deepPurple,
-                              child: Text(
-                                'куда кинуть полученный файл',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 20,
-                                ),
-                              )),
+                            width: 200,
+                            height: 50,
+                            color: Colors.deepPurple,
+                            child: Text(
+                              state.newFileFormat,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            print('object');
+                          },
+                          child: Text('загрузить файл ' +
+                              state.newFilename +'.'+
+                              state.newFileFormat),
                         ),
                         LinearProgressIndicator(
                           value: progressBarValue,
