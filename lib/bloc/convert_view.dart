@@ -51,7 +51,7 @@ class _ConvertPageState extends State<ConvertPage> {
         backgroundColor: Colors.grey[500],
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,
-          title: Text('все фото'),
+          title: Text('конвертация'),
           centerTitle: true,
         ),
         body: BlocProvider(
@@ -69,102 +69,148 @@ class _ConvertPageState extends State<ConvertPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            GestureDetector(
-                              onTap: (() {
-                                context.read<ConvertBloc>().add(PickFile());
-                              }),
-                              child: Container(
-                                width: 200,
-                                height: 50,
-                                color: Colors.deepPurple,
-                                child: Text(
-                                  state.filename,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (() {
+                                        context
+                                            .read<ConvertBloc>()
+                                            .add(PickFile());
+                                      }),
+                                      child: Container(
+                                        width: 200,
+                                        height: 50,
+                                        color: Colors.deepPurple,
+                                        child: Text(
+                                          state.filename,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    iconz(state.exeption1),
+                                  ],
+                                )
+                              ],
                             ),
-                            DropdownButton<String>(
-                              hint: const Text('выбор нового формата'),
-                              icon: const Icon(Icons.arrow_downward),
-                              elevation: 16,
-                              style: const TextStyle(color: Colors.deepPurple),
-                              underline: Container(
-                                height: 2,
-                                color: Colors.deepPurpleAccent,
-                              ),
-                              onChanged: (String? value) {
-                                print(state.newFileFormat);
-                                setState(() {
-                                  dropdownValue = value!;
-                                  context
-                                      .read<ConvertBloc>()
-                                      .add(SetNewFileFormat(NewFormat: value));
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 200,
+                                      height: 50,
+                                      child: DropdownButton<String>(
+                                        hint:
+                                            const Text('выбор нового формата'),
+                                        icon: const Icon(Icons.arrow_downward),
+                                        elevation: 16,
+                                        style: const TextStyle(
+                                            color: Colors.deepPurple),
+                                        underline: Container(
+                                          height: 2,
+                                          color: Colors.deepPurpleAccent,
+                                        ),
+                                        onChanged: (String? value) {
+                                          print(state.newFileFormat);
+                                          setState(() {
+                                            dropdownValue = value!;
+                                            context.read<ConvertBloc>().add(
+                                                SetNewFileFormat(
+                                                    NewFormat: value));
 
-                                  print('=====' + state.newFileFormat);
-                                });
-                              },
-                              items: state.availableFormats
-                                  .map((e) => DropdownMenuItem<String>(
-                                      value: e, child: Text(e)))
-                                  .toList(),
+                                            print(
+                                                '=====' + state.newFileFormat);
+                                          });
+                                        },
+                                        items: state.availableFormats
+                                            .map((e) =>
+                                                DropdownMenuItem<String>(
+                                                    value: e, child: Text(e)))
+                                            .toList(),
+                                      ),
+                                    ),
+                                    iconz(state.exeption2),
+                                  ],
+                                )
+                              ],
                             ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                                size: 24.0,
-                              ),
-                              tooltip: state.exeption1,
-                              onPressed: () {},
-                            ),
-                            iconz(state.exeption1),
-                            iconz(state.exeption2),
-                            iconz(state.exeption3),
-                            iconz(state.exeption4),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: (() {
-                            context.read<ConvertBloc>().add(PickNewFilePath());
-                          }),
-                          child: Container(
-                            width: 200,
-                            height: 50,
-                            color: Colors.deepPurple,
-                            child: Text(
-                              'выбор папки для сохранения ',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontSize: 20,
-                              ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (() {
+                                        context
+                                            .read<ConvertBloc>()
+                                            .add(PickNewFilePath());
+                                      }),
+                                      child: Container(
+                                        width: 200,
+                                        height: 50,
+                                        color: Colors.deepPurple,
+                                        child: Text(
+                                          'выбор папки для сохранения ',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    iconz(state.exeption3),
+                                  ],
+                                )
+                              ],
                             ),
-                          ),
-                        ),
-                        TextField(
-                          onSubmitted: (text) {
-                            setState(() {
-                              context
-                                  .read<ConvertBloc>()
-                                  .add(PickName(newName: text));
-                            });
-                          },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'введите новое имя файла',
-                          ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 200,
+                                      height: 50,
+                                      child: TextField(
+                                        onSubmitted: (text) {
+                                          setState(() {
+                                            context
+                                                .read<ConvertBloc>()
+                                                .add(PickName(newName: text));
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: 'введите новое имя файла',
+                                        ),
+                                      ),
+                                    ),
+                                    iconz(state.exeption4),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ],
                         ),
                         TextButton(
                           onPressed: (() {
-                            if (state.isAct != 'false') {                          
-                              context.read<ConvertBloc>().add(GetFile());
-                            } else {
-                              print("ne GG");
-                            }
+                            context.read<ConvertBloc>().add(GetFile());
                           }),
                           child: Text(
                             'загрузить файл ' +
@@ -177,6 +223,8 @@ class _ConvertPageState extends State<ConvertPage> {
                             ),
                           ),
                         ),
+                        
+                        
                       ],
                     ),
                   ),

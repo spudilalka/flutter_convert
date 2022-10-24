@@ -16,8 +16,7 @@ class ConvertState extends Equatable {
   final String exeption2;
   final String exeption3;
   final String exeption4;
-  final bool isButtonActive;
-  final String isAct;
+  
 
   const ConvertState({
     this.filename = 'выбор файла',
@@ -31,8 +30,7 @@ class ConvertState extends Equatable {
     this.exeption2 = '',
     this.exeption3 = '',
     this.exeption4 = '',
-    this.isButtonActive = true,
-    this.isAct = 'true',
+    
   });
 
   ConvertState copyWith({
@@ -47,8 +45,7 @@ class ConvertState extends Equatable {
     String? exeption2,
     String? exeption3,
     String? exeption4,
-    bool? isButtonActive,
-    String? isAct,
+    
   }) {
     return ConvertState(
       filename: filename ?? this.filename,
@@ -62,8 +59,7 @@ class ConvertState extends Equatable {
       exeption2: exeption2 ?? this.exeption2,
       exeption3: exeption3 ?? this.exeption3,
       exeption4: exeption4 ?? this.exeption4,
-      isButtonActive: isButtonActive ?? this.isButtonActive,
-      isAct: isAct ?? this.isAct,
+      
     );
   }
 
@@ -80,7 +76,6 @@ class ConvertState extends Equatable {
         exeption2,
         exeption3,
         exeption4,
-        isButtonActive,
-        isAct,
+        
       ];
 }
