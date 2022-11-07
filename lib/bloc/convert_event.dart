@@ -11,8 +11,14 @@ abstract class ConvertEvent {
 }
 
 class GetFile extends ConvertEvent {
-  
   const GetFile();
+}
+
+class SetLoad extends ConvertEvent {
+  final bool a;
+  const SetLoad({
+    required this.a,
+  });
 }
 
 class Check extends ConvertEvent {

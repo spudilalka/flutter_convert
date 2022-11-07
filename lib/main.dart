@@ -1,7 +1,7 @@
 import 'package:flutter_convert/bloc/convert_view.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudconvert_client/cloudconvert_client.dart';
-import 'package:flutter_convert/Hist Bloc/history_screen.dart';
+import 'package:flutter_convert/History/history_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
       ),
       initialRoute: '/',
       routes: {

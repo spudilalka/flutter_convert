@@ -63,9 +63,10 @@ class _HistoryScreen extends State<HistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[500],
+      backgroundColor: Colors.deepPurple[200],
       appBar: AppBar(
-          backgroundColor: Colors.deepPurple,
+          elevation: 0,
+          backgroundColor: Colors.deepPurple[400],
           title: Text('история'),
           centerTitle: true,
           actions: [
@@ -83,47 +84,59 @@ class _HistoryScreen extends State<HistScreen> {
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
                 key: Key(db.histList[index][1]),
-                child: Card(
+                child: Container(
+                    margin: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurple[400],
+                     borderRadius: BorderRadius.circular(10),
+                    ),
                     child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(db.histList[index][1]),
-                              IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      loadFile(index, db);
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.download,
-                                    color: Colors.green,
-                                  )),
-                            ])
+                        Column(
+                          children: [
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    db.histList[index][1]+'.'+db.histList[index][2],
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          loadFile(index, db);
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.download,
+                                        color: Colors.white,
+                                      )),
+                                ])
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    db.histList.removeAt(index);
+                                    db.updateData();
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                )),
+                          ],
+                        ),
                       ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              setState(() {
-                                db.histList.removeAt(index);
-                                db.updateData();
-                              });
-                            },
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.grey,
-                            )),
-                      ],
-                    ),
-                  ],
-                )
+                    )
 
                     // ListTile(
 

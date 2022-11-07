@@ -2,6 +2,8 @@ import 'dart:ffi';
 
 import 'package:cloudconvert_client/cloudconvert_client.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
 
 class ConvertState extends Equatable {
   // final Client newclient;
@@ -16,11 +18,11 @@ class ConvertState extends Equatable {
   final String exeption2;
   final String exeption3;
   final String exeption4;
-  
+  final double load;
 
   const ConvertState({
     this.filename = 'выбор файла',
-    this.newFileFormat = 'example',
+    this.newFileFormat = 'new format',
     this.availableFormats = const [],
     this.newFilename = 'new_file',
     this.filePath = '',
@@ -30,7 +32,7 @@ class ConvertState extends Equatable {
     this.exeption2 = '',
     this.exeption3 = '',
     this.exeption4 = '',
-    
+    this.load = 0,
   });
 
   ConvertState copyWith({
@@ -45,7 +47,7 @@ class ConvertState extends Equatable {
     String? exeption2,
     String? exeption3,
     String? exeption4,
-    
+    double? load
   }) {
     return ConvertState(
       filename: filename ?? this.filename,
@@ -59,7 +61,7 @@ class ConvertState extends Equatable {
       exeption2: exeption2 ?? this.exeption2,
       exeption3: exeption3 ?? this.exeption3,
       exeption4: exeption4 ?? this.exeption4,
-      
+      load:  load ?? this.load,
     );
   }
 
@@ -76,6 +78,6 @@ class ConvertState extends Equatable {
         exeption2,
         exeption3,
         exeption4,
-        
+        load,
       ];
 }

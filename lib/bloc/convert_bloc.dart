@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-import '../Hist Bloc/dataBase.dart';
+import '../History/dataBase.dart';
 import 'convert_event.dart';
 import 'convert_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,8 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         await setNewFileFormat(event, state, emit);
       } else if (event is GetFile) {
         await getFile(event, state, emit);
+      } else if (event is SetLoad) {
+        await setLoad(event, state, emit);
       }
     });
   }
@@ -33,6 +36,24 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYzNlNzI3MmI2YTE2MGZiMTA5MWQ5ZDNjYzQxOWFjMjJiZDI0NTExZmRiYjAwNTE0YjA4ODk0NmFmMGZhZWIxNzZlNjc1ZjU3ZDIwOWI4YjciLCJpYXQiOjE2Njc2NTQ0ODguODkxMjA1LCJuYmYiOjE2Njc2NTQ0ODguODkxMjA3LCJleHAiOjQ4MjMzMjgwODguODc4MTAzLCJzdWIiOiI2MDMxMzM1MSIsInNjb3BlcyI6WyJ1c2VyLnJlYWQiLCJ1c2VyLndyaXRlIiwidGFzay5yZWFkIiwidGFzay53cml0ZSIsIndlYmhvb2sucmVhZCIsIndlYmhvb2sud3JpdGUiLCJwcmVzZXQucmVhZCIsInByZXNldC53cml0ZSJdfQ.L6Xfz8cz-tarjH6-LP00IN-S7xCEY6Ex5tkgIpkbR6dV9Mg8bsN4iGtq5VaVwmnVk3tdEx8CwbgkrRdKotSgQvsws0mNaNU3AoQkl-wYulDMrSO1hv9M5oat5JPwdLwHFrWZyyAQI1GL2o-KUnA8cPe-K_waSAZVWBAnNG8J_I4JyFUvUnDjr_0RHl_uG0JdWpujUncPeIEVzcPf77PyQgEtcpWB16HGkOyEm_e09Gsi_2bl02PTFUOSMCUJiVkkxqUiKYHlDRkAVJ5PoPGZFQoUWIbClwoJO2MtbJ2NMhaTTfz1pb3sZa72yPQOIjGQOWZ1a43r5RqSCTlL0nJ3E-5d4Hj_YCxSwzOPJ2L8QvUJZFKlPtGJZNQ14AcIKDzlD8RoUK8C6KBw7TWDhoLdBDZRNSqxipOaiJGATjT9Fvo9SGam1DLgp9DfDbdXQ48h4q4BO_siRHSoqAGDwAWao3AuCNhI-8lpfFtph3APdBmf-4InqqI1TuDGipubyuH0ezqm4ma9GCkokxsHHrwa2w9bdt-vC1XALeKFWZPZIuEny4XYehrg8bLd31IerSiu5sAGZ3Lck1-5axtQ1ieuQuwDKdLm3OlbfQS-Aa6XY5SK3GSqKw5PFAuSJVV22_7nh01yYzJQW9GzAtiqsGy2h8dxyPHuEXW5UZhuG5S1W5Q",
     baseUrls: BaseUrls.sandbox,
   );
+
+  Future setLoad(
+    SetLoad event,
+    ConvertState state,
+    Emitter<ConvertState> emit,
+  ) async {
+    if (event.a == true) {
+      emit(state.copyWith(
+        load: 1,
+      ));
+      return;
+    } else {
+      emit(state.copyWith(
+        load: 0,
+      ));
+      return;
+    }
+  }
 
   Future setNewFileFormat(
     SetNewFileFormat event,
@@ -90,21 +111,28 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         state.filePath == '') {
       emit(state.copyWith(
         exeption1: 'выберите  файл!',
+        load: 0,
       ));
       return;
-    } else if (state.newFileFormat == '' || state.newFileFormat == 'example') {
+    } else if (state.newFileFormat == '' || state.newFileFormat == 'new format') {
       emit(state.copyWith(
         exeption2: 'выберите  формат!',
+                load: 0,
+
       ));
       return;
     } else if (state.newFilePath == '') {
       emit(state.copyWith(
         exeption3: 'выберите  путь для сохранения!',
+                load: 0,
+
       ));
       return;
     } else if (state.newFilename == '' || state.newFilename == 'new_file') {
       emit(state.copyWith(
         exeption4: 'выберите  новое имя файла!',
+                load: 0,
+
       ));
       return;
     }
@@ -130,9 +158,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         state.newFilePath,
       );
       if (response.exception != null) {
-        print('lsmdn;fmnsd;,mdn;s');
         print(response.exception);
-        print('lsmdn;fmnsd;,mdn;s');
       } else {
         final _myBox = Hive.box('hist');
 
@@ -147,7 +173,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
 
         emit(state.copyWith(
           filename: 'выбор файла',
-          newFileFormat: 'example',
+          newFileFormat: 'new format',
           availableFormats: const [],
           newFilename: 'new_file',
           filePath: '',
@@ -157,6 +183,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
           exeption2: '',
           exeption3: '',
           exeption4: '',
+          load: 0,
         ));
       }
       isActive = true;
