@@ -1,18 +1,20 @@
 import 'dart:ffi';
 
+import 'package:hive/hive.dart';
+
 import 'convert_bloc.dart';
 import 'convert_event.dart';
 import 'convert_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
-
 class ConvertPage extends StatefulWidget {
   const ConvertPage({Key? key}) : super(key: key);
   @override
   _ConvertPageState createState() => _ConvertPageState();
 }
+
+void _menuOpen() {}
 
 Widget iconz(String exeption) {
   if (exeption != '') {
@@ -53,6 +55,17 @@ class _ConvertPageState extends State<ConvertPage> {
           backgroundColor: Colors.deepPurple,
           title: Text('конвертация'),
           centerTitle: true,
+          actions: [
+            IconButton(
+              tooltip: 'история загрузок',
+              alignment:Alignment.centerLeft,
+              
+              icon: Icon(Icons.history),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/hist');
+              },
+            ),
+          ]
         ),
         body: BlocProvider(
             create: ((context) => ConvertBloc()),
@@ -74,6 +87,7 @@ class _ConvertPageState extends State<ConvertPage> {
                               children: [
                                 Row(
                                   children: [
+                                     
                                     GestureDetector(
                                       onTap: (() {
                                         context
